@@ -586,3 +586,4 @@ def dibujar_juego(pantalla, plataformas, obstaculos, powerups, meta, huevo, nive
         pygame.draw.circle(pantalla, NEGRO, (huevo_x - 7, huevo_y - 15), 3)
         pygame.draw.circle(pantalla, NEGRO, (huevo_x + 7, huevo_y - 15), 3)
         pygame.draw.arc(pantalla, NEGRO, (huevo_x - 10, huevo_y - 10, 20, 15), math.pi, 2 * math.pi, 2)
+        #tuki
