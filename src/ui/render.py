@@ -487,7 +487,7 @@ def dibujar_juego(pantalla, plataformas, obstaculos, powerups, meta, huevo, nive
     pantalla.blit(texto_controles, (recuadro_controles.centerx - texto_controles.get_width() // 2,
                                     recuadro_controles.centery - texto_controles.get_height() // 2))
 
-    def dibujar_victoria(pantalla, tiempo_transcurrido):
+def dibujar_victoria(pantalla, tiempo_transcurrido):
         pantalla.fill((220, 240, 255))
         pygame.draw.circle(pantalla, (255, 255, 200), (ANCHO_PANTALLA // 2, 100), 80)
         pygame.draw.circle(pantalla, (255, 255, 150), (ANCHO_PANTALLA // 2, 100), 50)
@@ -535,7 +535,7 @@ def dibujar_juego(pantalla, plataformas, obstaculos, powerups, meta, huevo, nive
         pantalla.blit(instruccion, (boton_volver.centerx - instruccion.get_width() // 2,
                                     boton_volver.centery - instruccion.get_height() // 2))
 
-    def dibujar_ingreso_nombre(pantalla, nombre_actual="", cursor_visible=True):
+def dibujar_ingreso_nombre(pantalla, nombre_actual="", cursor_visible=True):
         pantalla.fill(CREMA)
         tamaño_azulejo = 50
         for y in range(0, ALTO_PANTALLA, tamaño_azulejo):
