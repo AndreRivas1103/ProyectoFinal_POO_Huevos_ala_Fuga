@@ -486,3 +486,103 @@ def dibujar_juego(pantalla, plataformas, obstaculos, powerups, meta, huevo, nive
     texto_controles = fuente_controles.render("← → : Mover   ESPACIO : Saltar   ESC : Pausa", True, BLANCO)
     pantalla.blit(texto_controles, (recuadro_controles.centerx - texto_controles.get_width() // 2,
                                     recuadro_controles.centery - texto_controles.get_height() // 2))
+
+    def dibujar_victoria(pantalla, tiempo_transcurrido):
+        pantalla.fill((220, 240, 255))
+        pygame.draw.circle(pantalla, (255, 255, 200), (ANCHO_PANTALLA // 2, 100), 80)
+        pygame.draw.circle(pantalla, (255, 255, 150), (ANCHO_PANTALLA // 2, 100), 50)
+        for y in range(200, ALTO_PANTALLA, 150):
+            pygame.draw.rect(pantalla, (200, 200, 200), (50, y, ANCHO_PANTALLA - 100, 5))
+
+        pygame.draw.rect(pantalla, BLANCO, (ANCHO_PANTALLA // 2 - 200, 150, 400, 300), border_radius=15)
+        pygame.draw.rect(pantalla, VERDE_COCINA, (ANCHO_PANTALLA // 2 - 200, 150, 400, 300), 5, border_radius=15)
+        fuente_titulo = pygame.font.SysFont("arial", 48, bold=True)
+        titulo = fuente_titulo.render("¡VICTORIA!", True, VERDE_COCINA)
+        pantalla.blit(titulo, (ANCHO_PANTALLA // 2 - titulo.get_width() // 2, 180))
+
+        tamaño_huevo = 80
+        pos_huevo_x = ANCHO_PANTALLA // 2
+        pos_huevo_y = 270
+
+        pygame.draw.ellipse(pantalla, BLANCO,
+                            (pos_huevo_x - tamaño_huevo // 2, pos_huevo_y,
+                             tamaño_huevo, tamaño_huevo * 1.3))
+
+        pygame.draw.rect(pantalla, BLANCO,
+                         (pos_huevo_x - tamaño_huevo // 2 - 10, pos_huevo_y - 10,
+                          tamaño_huevo + 20, 20))
+        pygame.draw.rect(pantalla, BLANCO,
+                         (pos_huevo_x - tamaño_huevo // 4, pos_huevo_y - 40,
+                          tamaño_huevo // 2, 40))
+
+        pygame.draw.circle(pantalla, NEGRO, (pos_huevo_x - tamaño_huevo // 4, pos_huevo_y + tamaño_huevo // 2), 5)
+        pygame.draw.circle(pantalla, NEGRO, (pos_huevo_x + tamaño_huevo // 4, pos_huevo_y + tamaño_huevo // 2), 5)
+        pygame.draw.arc(pantalla, NEGRO,
+                        (pos_huevo_x - tamaño_huevo // 4, pos_huevo_y + tamaño_huevo // 2 + 10,
+                         tamaño_huevo // 2, tamaño_huevo // 4),
+                        math.pi, 2 * math.pi, 2)
+
+        fuente_info = pygame.font.SysFont("arial", 24)
+        info_tiempo = fuente_info.render(f"Tiempo: {tiempo_transcurrido} segundos", True, MARRON_OSCURO)
+        pantalla.blit(info_tiempo, (ANCHO_PANTALLA // 2 - info_tiempo.get_width() // 2, 370))
+
+        boton_volver = pygame.Rect(ANCHO_PANTALLA // 2 - 180, 400, 360, 50)
+        pygame.draw.rect(pantalla, MARRON_CLARO, boton_volver, border_radius=10)
+        pygame.draw.rect(pantalla, MARRON_OSCURO, boton_volver, 2, border_radius=10)
+
+        fuente_boton = pygame.font.SysFont("arial", 22)
+        instruccion = fuente_boton.render("Presiona ENTER para volver al menú", True, MARRON_OSCURO)
+        pantalla.blit(instruccion, (boton_volver.centerx - instruccion.get_width() // 2,
+                                    boton_volver.centery - instruccion.get_height() // 2))
+
+    def dibujar_ingreso_nombre(pantalla, nombre_actual="", cursor_visible=True):
+        pantalla.fill(CREMA)
+        tamaño_azulejo = 50
+        for y in range(0, ALTO_PANTALLA, tamaño_azulejo):
+            for x in range(0, ANCHO_PANTALLA, tamaño_azulejo):
+                pygame.draw.rect(pantalla, (240, 240, 200), (x, y, tamaño_azulejo, tamaño_azulejo), 1)
+        for i in range(5):
+            x = 100 + i * 150
+            pygame.draw.rect(pantalla, MARRON_OSCURO, (x, 50, 80, 10))
+            if i % 3 == 0:
+                pygame.draw.circle(pantalla, MARRON_CLARO, (x + 40, 100), 20)
+                pygame.draw.rect(pantalla, MARRON_CLARO, (x + 35, 100, 10, 40))
+            elif i % 3 == 1:
+                pygame.draw.circle(pantalla, (100, 100, 100), (x + 40, 110), 25)
+                pygame.draw.rect(pantalla, MARRON_CLARO, (x + 60, 90, 15, 10))
+            else:
+                pygame.draw.rect(pantalla, MARRON_CLARO, (x + 30, 80, 20, 50))
+                pygame.draw.rect(pantalla, MARRON_CLARO, (x + 25, 80, 30, 10))
+        panel_rect = pygame.Rect(ANCHO_PANTALLA // 2 - 250, 170, 500, 300)
+        pygame.draw.rect(pantalla, BLANCO, panel_rect, border_radius=15)
+        pygame.draw.rect(pantalla, MARRON_OSCURO, panel_rect, 5, border_radius=15)
+        fuente_titulo = pygame.font.SysFont("arial", 36, bold=True)
+        titulo = fuente_titulo.render("Ingresa tu nombre", True, MARRON_OSCURO)
+        pantalla.blit(titulo, (ANCHO_PANTALLA // 2 - titulo.get_width() // 2, 200))
+        pygame.draw.line(pantalla, MARRON_OSCURO,
+                         (ANCHO_PANTALLA // 2 - 150, 250),
+                         (ANCHO_PANTALLA // 2 + 150, 250), 3)
+        caja_texto_rect = pygame.Rect(ANCHO_PANTALLA // 2 - 150, 300, 300, 40)
+        pygame.draw.rect(pantalla, (240, 240, 240), caja_texto_rect, border_radius=5)
+        pygame.draw.rect(pantalla, MARRON_OSCURO, caja_texto_rect, 2, border_radius=5)
+        fuente_texto = pygame.font.SysFont("arial", 24)
+        texto_mostrar = nombre_actual
+        if cursor_visible:
+            texto_mostrar += "|"
+        texto_render = fuente_texto.render(texto_mostrar, True, NEGRO)
+        if texto_render.get_width() > caja_texto_rect.width - 20:
+            offset = texto_render.get_width() - (caja_texto_rect.width - 20)
+            pantalla.blit(texto_render, (caja_texto_rect.x + 10 - offset, caja_texto_rect.y + 10))
+        else:
+            pantalla.blit(texto_render, (caja_texto_rect.x + 10, caja_texto_rect.y + 10))
+        fuente_instrucciones = pygame.font.SysFont("arial", 18)
+        instruccion1 = fuente_instrucciones.render("Usa el teclado para escribir tu nombre", True, MARRON_OSCURO)
+        instruccion2 = fuente_instrucciones.render("Presiona ENTER para confirmar", True, MARRON_OSCURO)
+        pantalla.blit(instruccion1, (ANCHO_PANTALLA // 2 - instruccion1.get_width() // 2, 360))
+        pantalla.blit(instruccion2, (ANCHO_PANTALLA // 2 - instruccion2.get_width() // 2, 390))
+        huevo_x = ANCHO_PANTALLA // 2 + 180
+        huevo_y = 300
+        pygame.draw.ellipse(pantalla, BLANCO, (huevo_x - 20, huevo_y - 30, 40, 50))
+        pygame.draw.circle(pantalla, NEGRO, (huevo_x - 7, huevo_y - 15), 3)
+        pygame.draw.circle(pantalla, NEGRO, (huevo_x + 7, huevo_y - 15), 3)
+        pygame.draw.arc(pantalla, NEGRO, (huevo_x - 10, huevo_y - 10, 20, 15), math.pi, 2 * math.pi, 2)
