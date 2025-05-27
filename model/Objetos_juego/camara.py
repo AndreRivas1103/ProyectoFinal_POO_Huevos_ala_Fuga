@@ -3,30 +3,25 @@ from config.configuracion import ANCHO_PANTALLA, ALTO_PANTALLA
 
 
 class Camara:
-    def _init_(self, ancho_nivel):
+    def __init__(self, ancho_nivel=2000):
         self.desplazamiento = 0
         self.ancho_nivel = ancho_nivel
-        self.limite_derecho = ancho_nivel - ANCHO_PANTALLA
-        if self.limite_derecho < 0:
-            self.limite_derecho = 0
-
+        
     def actualizar(self, huevo):
-        x_relativa = huevo.x - self.desplazamiento
-
-        if x_relativa > ANCHO_PANTALLA * 0.66 and self.desplazamiento < self.limite_derecho:
-            desplazamiento_deseado = min(huevo.x - (ANCHO_PANTALLA * 0.5), self.limite_derecho)
-            self.desplazamiento += (desplazamiento_deseado - self.desplazamiento) * 0.1
-            if self.desplazamiento > self.limite_derecho:
-                self.desplazamiento = self.limite_derecho
-
-        elif x_relativa < ANCHO_PANTALLA * 0.33 and self.desplazamiento > 0:
-            desplazamiento_deseado = max(huevo.x - (ANCHO_PANTALLA * 0.33), 0)
-            self.desplazamiento += (desplazamiento_deseado - self.desplazamiento) * 0.1
-            if self.desplazamiento < 0:
-                self.desplazamiento = 0
-
+        """Actualiza la posición de la cámara siguiendo al huevo"""
+        # Mantener al huevo en el centro de la pantalla
+        objetivo = huevo.x - ANCHO_PANTALLA // 2
+        
+        # Limitar el desplazamiento para no salir de los límites del nivel
+        self.desplazamiento = max(0, min(objetivo, self.ancho_nivel - ANCHO_PANTALLA))
+    
     def aplicar(self, rect):
-        return pygame.Rect(rect.x - self.desplazamiento, rect.y, rect.width, rect.height)
+        """Aplica el desplazamiento de la cámara a un rectángulo"""
+        if isinstance(rect, pygame.Rect):
+            return pygame.Rect(rect.x - self.desplazamiento, rect.y, rect.width, rect.height)
+        else:
+            # Si es una tupla (x, y, width, height)
+            return pygame.Rect(rect[0] - self.desplazamiento, rect[1], rect[2], rect[3])
 
     def posicion_mundial_a_pantalla(self, x, y):
         return x - self.desplazamiento, y
