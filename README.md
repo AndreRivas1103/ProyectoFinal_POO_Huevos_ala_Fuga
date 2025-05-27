@@ -82,3 +82,9 @@ Para ayudar al jugador, el huevo puede recolectar power-ups:
 ```bash
 pip install pygame
 ```
+
+<h2 style="font-family: 'Arial'; font-size:24px">Ejecutar Aplicación</h2>
+
+```bash
+python run.py
+```
