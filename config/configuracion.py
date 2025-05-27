@@ -1,6 +1,6 @@
 # Dimensiones de pantalla
-ANCHO_PANTALLA = 800
-ALTO_PANTALLA = 800
+ANCHO_PANTALLA = 1000
+ALTO_PANTALLA = 650
 
 # Física del juego
 VELOCIDAD_MOVIMIENTO = 5
