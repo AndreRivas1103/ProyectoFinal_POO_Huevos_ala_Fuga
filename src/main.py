@@ -2,17 +2,18 @@ import pygame
 import sys
 import os
 
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(_file_))))
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from model.objetos_juego import Huevo
 from model.estados import EstadoJuego
-from src.game.niveles import cargar_nivel
+from src.logica.gestor_niveles import GestorNiveles
 from model.objetos_juego.camara import Camara
 from src.ui.render import (
     dibujar_menu, dibujar_juego, dibujar_pausa,
     dibujar_game_over, dibujar_victoria, dibujar_ingreso_nombre
 )
-from src.utils.puntuaciones import guardar_puntuacion, cargar_puntuaciones
+# Cambiar a usar el gestor de puntuaciones existente
+from src.logica.gestor_puntuaciones import GestorPuntuaciones
 from config.configuracion import ANCHO_PANTALLA, ALTO_PANTALLA, MAX_NIVEL
 
 
@@ -36,10 +37,11 @@ def juego():
     cursor_visible = True
     ultimo_cambio_cursor = pygame.time.get_ticks()
 
-    plataformas, obstaculos, powerups, meta, ancho_nivel = cargar_nivel(nivel_actual)
+    # Corregir la llamada a cargar_nivel
+    plataformas, obstaculos, powerups, meta = GestorNiveles.cargar_nivel(nivel_actual)
     huevo = Huevo(50, ALTO_PANTALLA - 150)
 
-    camara = Camara(ancho_nivel)
+    camara = Camara(2000)  # Ancho del nivel por defecto
 
     mostrar_puntuaciones = False
     puntuaciones = []
@@ -58,7 +60,8 @@ def juego():
                     elif evento.key == pygame.K_p:
                         mostrar_puntuaciones = not mostrar_puntuaciones
                         if mostrar_puntuaciones:
-                            puntuaciones = cargar_puntuaciones()
+                            # Usar el gestor de puntuaciones correcto
+                            puntuaciones = GestorPuntuaciones.cargar_puntuaciones()
 
             elif estado_actual == EstadoJuego.INGRESO_NOMBRE:
                 if evento.type == pygame.KEYDOWN:
@@ -95,9 +98,10 @@ def juego():
                     if evento.key == pygame.K_RETURN:
                         estado_actual = EstadoJuego.MENU
                         nivel_actual = 1
-                        plataformas, obstaculos, powerups, meta, ancho_nivel = cargar_nivel(nivel_actual)
+                        # Corregir la llamada a cargar_nivel
+                        plataformas, obstaculos, powerups, meta = GestorNiveles.cargar_nivel(nivel_actual)
                         huevo = Huevo(50, ALTO_PANTALLA - 150)
-                        camara = Camara(ancho_nivel)
+                        camara = Camara(2000)
 
         if estado_actual == EstadoJuego.INGRESO_NOMBRE:
             tiempo_actual = pygame.time.get_ticks()
@@ -153,12 +157,14 @@ def juego():
             if rect_huevo.colliderect(rect_meta):
                 if nivel_actual < MAX_NIVEL:
                     nivel_actual += 1
-                    plataformas, obstaculos, powerups, meta, ancho_nivel = cargar_nivel(nivel_actual)
+                    # Corregir la llamada a cargar_nivel
+                    plataformas, obstaculos, powerups, meta = GestorNiveles.cargar_nivel(nivel_actual)
                     huevo = Huevo(50, ALTO_PANTALLA - 150)
-                    camara = Camara(ancho_nivel)
+                    camara = Camara(2000)
                 else:
                     estado_actual = EstadoJuego.VICTORIA
-                    guardar_puntuacion(nombre_actual, tiempo_transcurrido, nivel_actual)
+                    # Usar el gestor de puntuaciones correcto
+                    GestorPuntuaciones.guardar_puntuacion(nombre_actual, tiempo_transcurrido, nivel_actual)
 
             if huevo.grietas >= 3:
                 estado_actual = EstadoJuego.GAME_OVER
@@ -191,5 +197,6 @@ def juego():
     sys.exit()
 
 
-if _name_ == "_main_":
+# Corregir __name__ y __main__ con doble guión bajo
+if __name__ == "__main__":
     juego()
