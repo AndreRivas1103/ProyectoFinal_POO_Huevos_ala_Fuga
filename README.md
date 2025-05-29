@@ -29,10 +29,10 @@
 
 <li style="list-style-type: decimal;">Zona de Cocción: Se introducen sartenes calientes y utensilios en movimiento.</li>
 
-<li style="list-style-type: decimal;">Gran Escape: El chef aparece y persigue al huevo mientras este intenta alcanzar la ventana para escapar.</li>
+<li style="list-style-type: decimal;">Gran Escape: La cocina se encuentra en total oscuridad, solo se ven los peligros, no las zonas seguras.</li>
 
 </ol>
-<p>Cada nivel tendrá un tiempo límite, lo que obliga al jugador a tomar decisiones rápidas.</p>
+
 
 <h3 style="font-family: 'Arial'; font-size:20px">Obstáculos y Peligros</h3>
 <ul>
